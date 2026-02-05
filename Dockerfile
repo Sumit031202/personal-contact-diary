@@ -1,9 +1,13 @@
-# Step 1: Use a Java 17 image
-FROM openjdk:17-jdk-slim
+# Step 1: Use a reliable Java 17 image (Eclipse Temurin)
+FROM eclipse-temurin:17-jdk-alpine
 
-# Step 2: Copy the built JAR file into the container
-# Note: This path assumes your Maven build creates a jar in the /target folder
+# Step 2: Create a directory for the app
+WORKDIR /app
+
+# Step 3: Copy the built JAR file into the container
+# This assumes your Maven build puts the jar in target/
 COPY target/*.jar app.jar
 
-# Step 3: Run the application
-ENTRYPOINT ["java", "-jar", "/app.jar"]
+# Step 4: Run the application
+# We use -Dserver.port=10000 because Render expects that port
+ENTRYPOINT ["java", "-jar", "app.jar", "--server.port=10000"]

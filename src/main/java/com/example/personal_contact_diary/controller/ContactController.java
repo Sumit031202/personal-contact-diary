@@ -22,4 +22,9 @@ public class ContactController {
     public List<Contact> getAllContacts(){
         return contactRepository.findAll();
     }
+
+    @DeleteMapping("/delete/{id}")
+    public void deleteContact(@PathVariable Long id) {
+        contactRepository.deleteById(id);
+    }
 }
